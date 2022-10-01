@@ -1,10 +1,10 @@
-import express from 'express'
+// import express from 'express'
 // import bodyParser from 'body-parser'
 // import cors from 'cors'
 import WebSocket, { WebSocketServer } from 'ws'
 
-const app = express()
-const port = 8080
+// const app = express()
+const port = process.env.PORT || 8080
 
 // app.use(bodyParser.json())
 // app.use(cors())
