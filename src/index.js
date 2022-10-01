@@ -4,7 +4,7 @@ import express from 'express'
 import WebSocket, { WebSocketServer } from 'ws'
 
 const app = express()
-const port = 3000
+const port = 8080
 
 // app.use(bodyParser.json())
 // app.use(cors())
@@ -13,7 +13,7 @@ const port = 3000
 //   console.log(`Youtube Watch Party listening at port ${port}`)
 // })
 
-const webSocketServer = new WebSocketServer({ port: 8080 })
+const webSocketServer = new WebSocketServer({ port })
 
 webSocketServer.on('connection', function (client) {
   console.log('WebSocket Client Connected')
@@ -32,3 +32,5 @@ webSocketServer.on('connection', function (client) {
   })
 
 })
+
+console.log(`Youtube Watch Party listening at port ${port}`)
