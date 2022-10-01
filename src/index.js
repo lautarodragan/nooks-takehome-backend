@@ -28,7 +28,7 @@ webSocketServer.on('connection', function (client) {
       console.log('Trying to send to client', message.toString(), userId, secondClient === client, secondClient.readyState)
       if (client === secondClient)
         return
-      if (secondClient.readyState === WebSocket.OPEN)
+      if (secondClient.readyState !== WebSocket.OPEN)
         return
       secondClient.send(message, { binary: isBinary })
     })
