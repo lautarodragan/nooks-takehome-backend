@@ -16,6 +16,8 @@ const port = process.env.PORT || 8080
 const webSocketServer = new WebSocketServer({ port })
 
 const clientToUser = new Map()
+let videoId
+let videoPlaybackStatus
 
 webSocketServer.on('connection', function (client) {
   console.log('WebSocket Client Connected')
@@ -41,12 +43,20 @@ webSocketServer.on('connection', function (client) {
 
     if (parsedMessage.action === 'join') {
       clientToUser.set(client, parsedMessage.userId)
+    } else if (parsedMessage.action === 'load') {
+      videoId = parsedMessage.videoId
+    } else if (parsedMessage.action === 'play') {
+      videoPlaybackStatus = 'playing'
+    } else if (parsedMessage.action === 'pause') {
+      videoPlaybackStatus = 'paused'
     }
 
     sendToEveryoneElse(message, isBinary)
     client.send(JSON.stringify({
-      action: 'userList',
-      users: [...webSocketServer.clients].map(client => clientToUser.get(client))
+      action: 'partyState',
+      videoId,
+      videoPlaybackStatus,
+      users: [...webSocketServer.clients].map(client => clientToUser.get(client)) // TODO: map entries instead. if they have not sent a 'join' message, ignore them.
     }))
   })
 
